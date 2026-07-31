@@ -22,30 +22,30 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class GatewayAuthenticationFilter extends OncePerRequestFilter {
 
-    private static final Log logger = LogFactory.getLog(GatewayAuthenticationFilter.class);
+	private static final Log logger = LogFactory.getLog(GatewayAuthenticationFilter.class);
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
-        try {
-            String userId = request.getHeader("X-User-Id");
-            String username = request.getHeader("X-Username");
-            String role = request.getHeader("X-Role");
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
+		try {
+			String userId = request.getHeader("X-User-Id");
+			String username = request.getHeader("X-Username");
+			String role = request.getHeader("X-Role");
 
-            if (userId != null && username != null && role != null) {
-                Collection<? extends GrantedAuthority> authorities = Collections.singletonList(
-                        new SimpleGrantedAuthority(role.startsWith("ROLE_") ? role : "ROLE_" + role));
+			if (userId != null && username != null && role != null) {
+				Collection<? extends GrantedAuthority> authorities = Collections
+						.singletonList(new SimpleGrantedAuthority(role.startsWith("ROLE_") ? role : "ROLE_" + role));
 
-                GatewayPrincipal principal = new GatewayPrincipal(Long.valueOf(userId), username, authorities);
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        principal, null, principal.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
-        } catch (Exception ex) {
-            logger.warn("Could not set gateway authentication in security context", ex);
-        }
+				GatewayPrincipal principal = new GatewayPrincipal(Long.valueOf(userId), username, authorities);
+				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(principal,
+						null, principal.getAuthorities());
+				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+				SecurityContextHolder.getContext().setAuthentication(authentication);
+			}
+		} catch (Exception ex) {
+			logger.warn("Could not set gateway authentication in security context", ex);
+		}
 
-        filterChain.doFilter(request, response);
-    }
+		filterChain.doFilter(request, response);
+	}
 }
