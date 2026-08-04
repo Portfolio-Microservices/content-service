@@ -29,6 +29,7 @@ public class SecurityConfig {
 				.authorizeHttpRequests(authorize -> authorize.requestMatchers(HttpMethod.GET, "/api/v1/blog/**")
 						.permitAll().requestMatchers(HttpMethod.GET, "/api/v1/skills/**").permitAll()
 						.requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+						.requestMatchers("/api/**").permitAll() //for time being
 						.anyRequest().authenticated())
 				.addFilterBefore(gatewayAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
