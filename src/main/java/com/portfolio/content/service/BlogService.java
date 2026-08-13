@@ -31,7 +31,7 @@ public class BlogService {
 	private static final int MAX_PAGE_SIZE = 100;
 
 	@Transactional(readOnly = true)
-	@Cacheable(value = "blogs", key = "#pageNumber + '_' + #pageSize")
+//	@Cacheable(value = "blogs", key = "#pageNumber + '_' + #pageSize")
 	public PaginationResponse<BlogResponse> getAllBlogs(Integer pageNumber, Integer pageSize) {
 		log.debug("Retrieving blogs with pagination - page: {}, size: {}", pageNumber, pageSize);
 
@@ -45,6 +45,14 @@ public class BlogService {
 		PaginationResponse<BlogResponse> response = buildPaginationResponse(blogs);
 		log.info("Retrieved {} blogs out of {} total", response.getContent().size(), response.getTotalElements());
 
+		
+		log.info("Waiting ", response.getContent().size(), response.getTotalElements());
+		try {
+		    Thread.sleep(10000);
+		} catch (InterruptedException e) {
+		    Thread.currentThread().interrupt();
+		}
+		
 		return response;
 	}
 
