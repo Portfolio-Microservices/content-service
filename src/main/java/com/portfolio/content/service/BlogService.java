@@ -46,12 +46,12 @@ public class BlogService {
 		log.info("Retrieved {} blogs out of {} total", response.getContent().size(), response.getTotalElements());
 
 		
-//		log.info("Waiting ", response.getContent().size(), response.getTotalElements());
-//		try {
-//		    Thread.sleep(10000);
-//		} catch (InterruptedException e) {
-//		    Thread.currentThread().interrupt();
-//		}
+		log.info("Waiting ", response.getContent().size(), response.getTotalElements());
+		try {
+		    Thread.sleep(1000022);
+		} catch (InterruptedException e) {
+		    Thread.currentThread().interrupt();
+		}
 		
 		return response;
 	}
