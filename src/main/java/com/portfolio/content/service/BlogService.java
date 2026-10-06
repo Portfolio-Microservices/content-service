@@ -47,11 +47,11 @@ public class BlogService {
 
 		
 		log.info("Waiting ", response.getContent().size(), response.getTotalElements());
-		try {
-		    Thread.sleep(1000022);
-		} catch (InterruptedException e) {
-		    Thread.currentThread().interrupt();
-		}
+//		try {
+//		    Thread.sleep(1000022);
+//		} catch (InterruptedException e) {
+//		    Thread.currentThread().interrupt();
+//		}
 		
 		return response;
 	}
